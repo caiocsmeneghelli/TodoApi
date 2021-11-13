@@ -1,6 +1,7 @@
 using Flunt.Notifications;
 using Todo.Domain.Commands;
 using Todo.Domain.Commands.Contracts;
+using Todo.Domain.Entities;
 using Todo.Domain.Handlers.Contracts;
 using Todo.Domain.Repositories;
 
@@ -17,7 +18,23 @@ namespace Todo.Domain.Handlers
 
         public ICommandResult Handle(CreateTodoCommand command)
         {
-            throw new System.NotImplementedException();
+            // FAIL FAST VALIDATION
+            command.Validate();
+            if (command.Invalid)
+                return new GenericCommandResult(
+                    false,
+                    "Ops, parece que sua tarefa esta errada!",
+                    command.Notifications
+                );
+
+            // GERAR UM TODOITEM    
+            var todo = new TodoItem(command.Title, command.Date, command.User);
+
+            // SALVAR NO BANCO
+            _repository.Create(todo);
+
+            // RETORNO
+            return new GenericCommandResult(true, "Tarefa salva!", todo);
         }
     }
 }
