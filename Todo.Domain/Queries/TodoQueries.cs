@@ -26,7 +26,7 @@ namespace Todo.Domain.Queries
             return x =>
                 x.User == user &&
                 x.Done == done &&
-                x.Date.Date == date.Date
+                x.Date.Date == date.Date;
         }
     }
 }
