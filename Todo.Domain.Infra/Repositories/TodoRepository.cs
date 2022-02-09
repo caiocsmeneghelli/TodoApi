@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Todo.Domain.Entities;
 using Todo.Domain.Infra.Contexts;
+using Todo.Domain.Queries;
 using Todo.Domain.Repositories;
 
 namespace Todo.Domain.Infra.Repositories
@@ -21,27 +24,27 @@ namespace Todo.Domain.Infra.Repositories
 
         public IEnumerable<TodoItem> GetAll(string email)
         {
-            throw new NotImplementedException();
+            return _context.Todos.AsNoTracking().Where(TodoQueries.GetAll(email)).OrderBy(x => x.Date);
         }
 
         public IEnumerable<TodoItem> GetAllDone(string email)
         {
-            throw new NotImplementedException();
+            return _context.Todos.AsNoTracking().Where(TodoQueries.GetAllDone(email)).OrderBy(x => x.Date);
         }
 
         public IEnumerable<TodoItem> GetAllUndone(string email)
         {
-            throw new NotImplementedException();
+            return _context.Todos.AsNoTracking().Where(TodoQueries.GetAllUndone(email)).OrderBy(x => x.Date);
         }
 
         public TodoItem GetById(Guid id, string email)
         {
-            throw new NotImplementedException();
+            return _context.Todos.FirstOrDefault(x => x.Id == id && x.User == email);
         }
 
         public IEnumerable<TodoItem> GetByPeriod(string email, DateTime date, bool done)
         {
-            throw new NotImplementedException();
+            return _context.Todos.AsNoTracking().Where(TodoQueries.GetByPeriod(email, date, done)).OrderBy(x => x.Date);
         }
 
         public void Update(TodoItem todo)

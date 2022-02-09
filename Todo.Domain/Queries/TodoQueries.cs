@@ -6,6 +6,7 @@ namespace Todo.Domain.Queries
 {
     public static class TodoQueries
     {
+        // Desta forma esta sendo enviada uma LinqExpression usada no TodoRepository
         public static Expression<Func<TodoItem, bool>> GetAll(string user)
         {
             return x => x.User == user;
@@ -21,7 +22,7 @@ namespace Todo.Domain.Queries
             return x => x.User == user && x.Done == false;
         }
 
-        public static Expression<Func<TodoItem, bool>> GetAll(string user, DateTime date, bool done)
+        public static Expression<Func<TodoItem, bool>> GetByPeriod(string user, DateTime date, bool done)
         {
             return x =>
                 x.User == user &&
