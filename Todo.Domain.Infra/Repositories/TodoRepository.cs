@@ -1,13 +1,23 @@
-using Todo.Domain.Repositories;
-using Todo.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using Todo.Domain.Entities;
+using Todo.Domain.Infra.Contexts;
+using Todo.Domain.Repositories;
 
-namespace Todo.Domain.Tests.Repositories
+namespace Todo.Domain.Infra.Repositories
 {
-    public class FakeTodoRepository : ITodoRepository
+    public class TodoRepository : ITodoRepository
     {
-        public void Create(TodoItem todo) { }
+        private readonly DataContext _context;
+        public TodoRepository(DataContext context)
+        {
+            _context = context;
+        }
+        public void Create(TodoItem todo)
+        {
+            _context.Todos.Add(todo);
+            _context.SaveChanges();
+        }
 
         public IEnumerable<TodoItem> GetAll(string email)
         {
@@ -34,6 +44,10 @@ namespace Todo.Domain.Tests.Repositories
             throw new NotImplementedException();
         }
 
-        public void Update(TodoItem todo) { }
+        public void Update(TodoItem todo)
+        {
+            _context.Entry(todo).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
