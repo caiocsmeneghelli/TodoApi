@@ -27,5 +27,21 @@ namespace Todo.Domain.Tests.EntityTests
             var result = _items.AsQueryable().Where(TodoQueries.GetAll("andrebaltieri"));
             Assert.AreEqual(2, result.Count());
         }
+
+        [TestMethod]
+        public void Dada_a_consulta_por_tarefas_finalizadas_por_usuario_andrebaltieri()
+        {
+            _items[0].MarkAsDone();
+            var result = _items.AsQueryable().Where(TodoQueries.GetAllDone("andrebaltieri"));
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [TestMethod]
+        public void Dada_a_consulta_por_tarefas_nao_finalizdas_por_usuario_andrebaltieri()
+        {
+            var result = _items.AsQueryable().Where(TodoQueries.GetAllUndone("andrebaltieri"));
+            Assert.AreEqual(2, result.Count());
+        }
+
     }
 }
