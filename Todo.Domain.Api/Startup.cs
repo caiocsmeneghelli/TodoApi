@@ -24,8 +24,10 @@ namespace Todo.Domain.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             // AddDbContext substitui o AddScoped.
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            services.AddDbContext<DataContext>(opt => opt.UseMySQL(Configuration.GetConnectionString("connectionString")));
 
             services.AddTransient<ITodoRepository, TodoRepository>();
             services.AddTransient<TodoHandler, TodoHandler>();

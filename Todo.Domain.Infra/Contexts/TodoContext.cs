@@ -12,7 +12,7 @@ namespace Todo.Domain.Infra.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Fix problema do ToTable com EFCore Tools e Relational
-            modelBuilder.Entity<TodoItem>().ToTable("Todo");
+            modelBuilder.Entity<TodoItem>().ToTable("Todos");
             modelBuilder.Entity<TodoItem>().Property(x => x.Id);
             modelBuilder.Entity<TodoItem>().Property(x => x.User).HasMaxLength(120).HasColumnType("varchar(120)");
             modelBuilder.Entity<TodoItem>().Property(x => x.Title).HasMaxLength(160).HasColumnType("varchar(160)");
